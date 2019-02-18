@@ -4,28 +4,28 @@
 
 ### REQUIREMENTS
 
-Book information collected is: title, genre, author(s), promo details, price
-Book information is collected from 2 DIFFERENT libraries (one with screen scraping, one with REST API)
-Robot runs once per day, results are appended
-Run results are persisted in DB
-Runs are logged along with their statistics 
-Results can be sorted per all fields
-Results can be filtered per bookstore
-Results can be filtered per category
-Results can be filtered per author
-Books can be searched for (author, title, title fragment, price greater or lower than, price range)
-User documentation (how to run, install, etc. preferably with scripts)
-Holy master, Jenkins, Sonar, Maven quality plugins
-Multi-module Maven project
-Web-UI front-end tech stack is your pick
-Spring Data with JPA repository
+Book information collected is: title, genre, author(s), promo details, price<br/>
+Book information is collected from 2 DIFFERENT libraries (one with screen scraping, one with REST API)<br/>
+Robot runs once per day, results are appended<br/>
+Run results are persisted in DB<br/>
+Runs are logged along with their statistics<br/> 
+Results can be sorted per all fields<br/>
+Results can be filtered per bookstore<br/>
+Results can be filtered per category<br/>
+Results can be filtered per author<br/>
+Books can be searched for (author, title, title fragment, price greater or lower than, price range)<br/>
+User documentation (how to run, install, etc. preferably with scripts)<br/>
+Holy master, Jenkins, Sonar, Maven quality plugins<br/>
+Multi-module Maven project<br/>
+Web-UI front-end tech stack is your pick<br/>
+Spring Data with JPA repository<br/>
 
 ### Things to learn
 
-screen scraping
-REST API
-Spring
-logger
-Jenkins
-Web-UI
+screen scraping<br/>
+REST API<br/>
+Spring<br/>
+logger<br/>
+Jenkins<br/>
+Web-UI<br/>
 
