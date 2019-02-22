@@ -1,33 +1,34 @@
 package pl.michalak.adam.scrapping;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 class CzytamPLScrapper implements PageScrapper {
-	Set<ScrappedBook> scrappedBooks;
+	private ScrapperAPI scrapper;
+
+	CzytamPLScrapper(ScrapperAPI scrapper){
+		this.scrapper = scrapper;
+	}
+
 	@Override
 	public Set<ScrappedBook> scrapData() {
-		scrappedBooks = new HashSet<>();
-		Document document = null;
+		Set<ScrappedBook> scrappedBooks = new HashSet<>();
+
 		try {
-			document = Jsoup.connect(CzytamPLQueries.URL.getQuery()).get();
+			scrapper.connect(CzytamPLQueries.URL.getQuery());
 		} catch (IOException e) {
-			System.out.println("Could not connect to "+TaniaKsiazkaQueries.URL);
+			System.err.println("Could not connect to "+TaniaKsiazkaQueries.URL);
 		}
-		if(document == null)
-			throw new NullPointerException("Page"+CzytamPLQueries.URL.toString()+"might not have been initialized.");
-		for (Element row : document.select(CzytamPLQueries.TABLE.getQuery())) {
-			String title = row.select(CzytamPLQueries.TITLEROW.getQuery()).text();
-			String author = row.select(CzytamPLQueries.AUTHORROW.getQuery()).text();
-			double price = Double.parseDouble(row.select(CzytamPLQueries.PRICEROW.getQuery()).text());
-			double previousPrice = Double.parseDouble(row.select(CzytamPLQueries.PROMODETAILSROW.getQuery()).text());
-			String promoDetails = getPromoInPercents(price, previousPrice);
-			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(promoDetails).build());
+		for (Element row : scrapper.getTableRows(CzytamPLQueries.TABLE.getQuery())) {
+			String title = scrapper.getTitle(CzytamPLQueries.TITLEROW.getQuery(), row);
+			String author = scrapper.getAuthor(CzytamPLQueries.AUTHORROW.getQuery(), row);
+			double price = Double.parseDouble(scrapper.getPrice(CzytamPLQueries.PRICEROW.getQuery(), row));
+			double previousPrice = Double.parseDouble(scrapper.getPromoDetails(CzytamPLQueries.PROMODETAILSROW.getQuery(), row));
+			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(getPromoInPercents(price, previousPrice)).build());
 		}
 		return scrappedBooks;
 	}

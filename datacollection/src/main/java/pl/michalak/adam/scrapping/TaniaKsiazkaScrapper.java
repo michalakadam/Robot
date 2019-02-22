@@ -1,8 +1,7 @@
 package pl.michalak.adam.scrapping;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -10,25 +9,25 @@ import java.util.Set;
 
 class TaniaKsiazkaScrapper implements PageScrapper {
 
-	Set<ScrappedBook> scrappedBooks;
+	private ScrapperAPI scrapper;
+
+	TaniaKsiazkaScrapper(ScrapperAPI scrapper){
+		this.scrapper = scrapper;
+	}
 
 	@Override
 	public Set<ScrappedBook> scrapData() {
-		scrappedBooks = new HashSet<>();
-		Document document = null;
+		Set<ScrappedBook> scrappedBooks = new HashSet<>();
 		try {
-			document = Jsoup.connect(TaniaKsiazkaQueries.URL.getQuery()).get();
+			scrapper.connect(TaniaKsiazkaQueries.URL.getQuery());
 		} catch (IOException e) {
-
-
+			System.err.println("Could not connect to "+TaniaKsiazkaQueries.URL);
 		}
-		if(document == null)
-			throw new NullPointerException("Page"+TaniaKsiazkaQueries.URL.toString()+"might not have been initialized.");
-		for (Element row : document.select(TaniaKsiazkaQueries.TABLE.getQuery())) {
-			String title = row.select(TaniaKsiazkaQueries.TITLEROW.getQuery()).text();
-			String author = row.select(TaniaKsiazkaQueries.AUTHORROW.getQuery()).text();
-			double price = Double.parseDouble(row.select(TaniaKsiazkaQueries.PRICEROW.getQuery()).text());
-			String promoDetails = row.select(TaniaKsiazkaQueries.PROMODETAILSROW.getQuery()).text();
+		for (Element row : scrapper.getTableRows(TaniaKsiazkaQueries.TABLE.getQuery())) {
+			String title = scrapper.getTitle(TaniaKsiazkaQueries.TITLEROW.getQuery(), row);
+			String author = scrapper.getAuthor(TaniaKsiazkaQueries.AUTHORROW.getQuery(), row);
+			double price = Double.parseDouble(scrapper.getPrice(TaniaKsiazkaQueries.PRICEROW.getQuery(), row));
+			String promoDetails = scrapper.getPromoDetails(TaniaKsiazkaQueries.PROMODETAILSROW.getQuery(), row);
 			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(promoDetails).build());
 		}
 		return scrappedBooks;
