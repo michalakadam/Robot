@@ -48,8 +48,8 @@ class ScrappedBook implements Book {
             return this;
         }
 
-        BookBuilder setPrice(String price){
-            this.price = Double.parseDouble(price);
+        BookBuilder setPrice(double price){
+            this.price = price;
             return this;
         }
 

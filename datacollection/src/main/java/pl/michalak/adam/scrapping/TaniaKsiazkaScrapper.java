@@ -19,14 +19,15 @@ class TaniaKsiazkaScrapper implements PageScrapper {
 		try {
 			document = Jsoup.connect(TaniaKsiazkaQueries.URL.getQuery()).get();
 		} catch (IOException e) {
-			e.printStackTrace();
+
+
 		}
 		if(document == null)
 			throw new NullPointerException("Page"+TaniaKsiazkaQueries.URL.toString()+"might not have been initialized.");
 		for (Element row : document.select(TaniaKsiazkaQueries.TABLE.getQuery())) {
 			String title = row.select(TaniaKsiazkaQueries.TITLEROW.getQuery()).text();
 			String author = row.select(TaniaKsiazkaQueries.AUTHORROW.getQuery()).text();
-			String price = row.select(TaniaKsiazkaQueries.PRICEROW.getQuery()).text();
+			double price = Double.parseDouble(row.select(TaniaKsiazkaQueries.PRICEROW.getQuery()).text());
 			String promoDetails = row.select(TaniaKsiazkaQueries.PROMODETAILSROW.getQuery()).text();
 			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(promoDetails).build());
 		}
