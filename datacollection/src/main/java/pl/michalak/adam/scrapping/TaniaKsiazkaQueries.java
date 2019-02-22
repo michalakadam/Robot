@@ -16,3 +16,4 @@ enum TaniaKsiazkaQueries {
         return this.query;
     }
 }
+

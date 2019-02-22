@@ -11,4 +11,11 @@
     </parent>
 
     <artifactId>persistencelayer</artifactId>
+
+    <dependencies><dependency>
+        <groupId>pl.michalak.adam</groupId>
+        <artifactId>datacollection</artifactId>
+        <version>${revision}</version>
+    </dependency></dependencies>
+
 </project>

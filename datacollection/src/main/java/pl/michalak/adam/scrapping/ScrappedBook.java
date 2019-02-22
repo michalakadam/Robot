@@ -1,19 +1,39 @@
 package pl.michalak.adam.scrapping;
 
-class Book {
-    String title;
-    String author;
-    double price;
-    String promoDetails;
+class ScrappedBook implements Book {
+	private String title;
+	private String author;
+	private double price;
+	private String promoDetails;
 
-    Book(BookBuilder bookBuilder){
+    private ScrappedBook(BookBuilder bookBuilder){
         this.title = bookBuilder.title;
         this.author = bookBuilder.author;
         this.price = bookBuilder.price;
         this.promoDetails = bookBuilder.promoDetails;
     }
 
-    static class BookBuilder{
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public String getAuthor() {
+		return author;
+	}
+
+	@Override
+	public double getPrice() {
+		return price;
+	}
+
+	@Override
+	public String getPromoDetails() {
+		return promoDetails;
+	}
+
+	static class BookBuilder{
         String title;
         String author;
         double price;
@@ -38,8 +58,12 @@ class Book {
             return this;
         }
 
-        Book build(){
-            return new Book(this);
+        ScrappedBook build(){
+            return new ScrappedBook(this);
+        }
+
+        static BookBuilder create(String title){
+            return new BookBuilder(new StringFormatter().removeSpecificWordFromSentence(title, "Outlet"));
         }
     }
 
