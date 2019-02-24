@@ -24,7 +24,7 @@ class BookEntity {
 
 	BookEntity(){}
 
-	public BookEntity(Book book){
+	BookEntity(Book book){
 		this.title = book.getTitle();
 		this.author = book.getAuthor();
 		this.price = book.getPrice();

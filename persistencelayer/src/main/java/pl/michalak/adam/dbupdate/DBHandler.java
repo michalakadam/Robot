@@ -9,6 +9,10 @@ import pl.michalak.adam.scrapping.DataCollectionAPI;
 
 import java.util.Set;
 
+/**
+ * Handles transferring books' data from datacollection module
+ * to database on remote server.
+ */
 @SpringBootApplication
 public class DBHandler implements CommandLineRunner {
 
