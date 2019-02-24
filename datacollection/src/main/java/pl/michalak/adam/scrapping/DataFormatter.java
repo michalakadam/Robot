@@ -4,7 +4,7 @@ class DataFormatter {
 
     static String removeSpecificWordFromSentence(String sentence){
     	for(UnwantedWords wordToBeRemoved : UnwantedWords.values())
-        	sentence.replace(wordToBeRemoved.getUnwantedWords(), "\b");
+        	sentence = sentence.replace(wordToBeRemoved.getUnwantedWords(), "");
     	return sentence;
     }
 
