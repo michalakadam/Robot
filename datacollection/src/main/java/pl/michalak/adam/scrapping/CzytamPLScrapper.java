@@ -34,7 +34,7 @@ class CzytamPLScrapper implements PageScrapper {
 	}
 
 	private String getPromoInPercents(double price, double previousPrice){
-		int promoInPercents = (int) (price/previousPrice);
-		return "-"+promoInPercents+"%";
+		int promoInPercents = (int) (((previousPrice-price)/previousPrice)*100);
+		return new StringBuilder().append("-").append(promoInPercents).append("%").toString();
 	}
 }
