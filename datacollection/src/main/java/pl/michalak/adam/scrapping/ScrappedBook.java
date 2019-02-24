@@ -49,7 +49,7 @@ class ScrappedBook implements Book {
         }
 
         BookBuilder setPrice(double price){
-            this.price = price;
+            this.price = DataFormatter.round(price, 2);
             return this;
         }
 
