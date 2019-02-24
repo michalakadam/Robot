@@ -63,7 +63,7 @@ class ScrappedBook implements Book {
         }
 
         static BookBuilder create(String title){
-            return new BookBuilder(new StringFormatter().removeSpecificWordFromSentence(title));
+            return new BookBuilder(DataFormatter.removeSpecificWordFromSentence(title));
         }
     }
 

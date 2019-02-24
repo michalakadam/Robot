@@ -26,10 +26,8 @@ class CzytamPLScrapper implements PageScrapper {
 		for (Row row : scrapper.getTableRows(CzytamPLQueries.TABLE.getQuery())) {
 			String title = scrapper.getTitle(CzytamPLQueries.TITLEROW.getQuery(), row);
 			String author = scrapper.getAuthor(CzytamPLQueries.AUTHORROW.getQuery(), row);
-			String priceString = scrapper.getPrice(CzytamPLQueries.PRICEROW.getQuery(), row);
-			String previousPriceString = scrapper.getPromoDetails(CzytamPLQueries.PROMODETAILSROW.getQuery(), row);
-			double price = Double.parseDouble(priceString.substring(9).replace(",", ".").replace("PLN", ""));
-			double previousPrice = Double.parseDouble(previousPriceString.replace("PLN", "").replace(",", "."));
+			double price = DataFormatter.parseStringToDouble(scrapper.getPrice(CzytamPLQueries.PRICEROW.getQuery(), row).substring(9));
+			double previousPrice = DataFormatter.parseStringToDouble(scrapper.getPromoDetails(CzytamPLQueries.PROMODETAILSROW.getQuery(), row));
 			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(getPromoInPercents(price, previousPrice)).build());
 		}
 		return scrappedBooks;
