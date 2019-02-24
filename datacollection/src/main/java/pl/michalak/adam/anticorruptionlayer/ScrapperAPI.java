@@ -1,7 +1,5 @@
 package pl.michalak.adam.anticorruptionlayer;
 
-import org.jsoup.nodes.Element;
-
 import java.io.IOException;
 import java.util.List;
 

@@ -21,9 +21,8 @@ public class JSoupScrapper implements ScrappingProvider{
 
 	@Override
 	public List<Row> getTableRows(String tableQuery) {
-		var listOfElements = new ArrayList<>(document.select(tableQuery));
 		List<Row> listOfRows = new ArrayList<>();
-		for(Element jsoupElement : listOfElements){
+		for(Element jsoupElement : document.select(tableQuery)){
 			listOfRows.add(new Row(jsoupElement));
 		}
 		return listOfRows;
