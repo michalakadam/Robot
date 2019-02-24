@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Implementation of ScrappingProvider that uses methods provided
+ * by org.jsoup.Jsoup library to scrap data from a webpage.
+ */
 public class JSoupScrapper implements ScrappingProvider{
 
 	Document document = null;
@@ -29,7 +34,6 @@ public class JSoupScrapper implements ScrappingProvider{
 	}
 
 	@Override
-
 	public String getTitle(String titleQuery, Element row) {
 		return row.select(titleQuery).text();
 	}

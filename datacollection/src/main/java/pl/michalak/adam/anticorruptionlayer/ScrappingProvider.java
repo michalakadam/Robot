@@ -5,7 +5,10 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.util.List;
 
-public interface ScrappingProvider {
+/**
+ * Provides methods necessary for book store scrappers to function properly.
+ */
+interface ScrappingProvider {
 	void connect(String url) throws IOException;
 	List<Row> getTableRows(String tableQuery);
 	String getTitle(String titleQuery, Element row);
