@@ -3,7 +3,7 @@ package pl.michalak.adam.scrapping;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-class DataFormatter {
+class DataFormattingHelper {
 
     static String removeSpecificWordFromSentence(String sentence){
     	for(UnwantedWords wordToBeRemoved : UnwantedWords.values())
@@ -25,5 +25,10 @@ class DataFormatter {
 		BigDecimal bd = BigDecimal.valueOf(value);
 		bd = bd.setScale(places, RoundingMode.HALF_UP);
 		return bd.doubleValue();
+	}
+
+	static String getPromoInPercents(double price, double previousPrice){
+		int promoInPercents = (int) (((previousPrice-price)/previousPrice)*100);
+		return new StringBuilder().append("-").append(promoInPercents).append("%").toString();
 	}
 }

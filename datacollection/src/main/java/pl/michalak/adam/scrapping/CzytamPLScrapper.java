@@ -26,15 +26,10 @@ class CzytamPLScrapper implements PageScrapper {
 		for (Row row : scrapper.getTableRows(CzytamPLQueries.TABLE.getQuery())) {
 			String title = scrapper.getTitle(CzytamPLQueries.TITLEROW.getQuery(), row);
 			String author = scrapper.getAuthor(CzytamPLQueries.AUTHORROW.getQuery(), row);
-			double price = DataFormatter.parseStringToDouble(scrapper.getPrice(CzytamPLQueries.PRICEROW.getQuery(), row).substring(9));
-			double previousPrice = DataFormatter.parseStringToDouble(scrapper.getPromoDetails(CzytamPLQueries.PROMODETAILSROW.getQuery(), row));
-			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(getPromoInPercents(price, previousPrice)).build());
+			double price = DataFormattingHelper.parseStringToDouble(scrapper.getPrice(CzytamPLQueries.PRICEROW.getQuery(), row).substring(9));
+			double previousPrice = DataFormattingHelper.parseStringToDouble(scrapper.getPromoDetails(CzytamPLQueries.PROMODETAILSROW.getQuery(), row));
+			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(DataFormattingHelper.getPromoInPercents(price, previousPrice)).build());
 		}
 		return scrappedBooks;
-	}
-
-	private String getPromoInPercents(double price, double previousPrice){
-		int promoInPercents = (int) (((previousPrice-price)/previousPrice)*100);
-		return new StringBuilder().append("-").append(promoInPercents).append("%").toString();
 	}
 }

@@ -49,7 +49,7 @@ class ScrappedBook implements Book {
         }
 
         BookBuilder setPrice(double price){
-            this.price = DataFormatter.round(price, 2);
+            this.price = DataFormattingHelper.round(price, 2);
             return this;
         }
 
@@ -63,7 +63,7 @@ class ScrappedBook implements Book {
         }
 
         static BookBuilder create(String title){
-            return new BookBuilder(DataFormatter.removeSpecificWordFromSentence(title));
+            return new BookBuilder(DataFormattingHelper.removeSpecificWordFromSentence(title));
         }
     }
 
