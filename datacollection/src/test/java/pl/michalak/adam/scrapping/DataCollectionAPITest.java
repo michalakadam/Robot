@@ -15,7 +15,7 @@ public class DataCollectionAPITest {
 
 	    DataCollectionAPI dataCollectionAPI = new DataCollectionAPI();
 	    //when
-	    Set<ScrappedBook> booksReturnedByUpdate = dataCollectionAPI.updateData();
+	    Set<Book> booksReturnedByUpdate = dataCollectionAPI.updateData();
 	    int booksScrappedAmount = booksReturnedByUpdate.size();
 	    //then
 	    assertTrue(booksScrappedAmount > 0, whyItFailed);
