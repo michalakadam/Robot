@@ -1,6 +1,6 @@
 package pl.michalak.adam.scrapping;
 
-import org.jsoup.nodes.Element;
+import pl.michalak.adam.anticorruptionlayer.Row;
 import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ class CzytamPLScrapper implements PageScrapper {
 		} catch (IOException e) {
 			System.err.println("Could not connect to "+TaniaKsiazkaQueries.URL);
 		}
-		for (Element row : scrapper.getTableRows(CzytamPLQueries.TABLE.getQuery())) {
+		for (Row row : scrapper.getTableRows(CzytamPLQueries.TABLE.getQuery())) {
 			String title = scrapper.getTitle(CzytamPLQueries.TITLEROW.getQuery(), row);
 			String author = scrapper.getAuthor(CzytamPLQueries.AUTHORROW.getQuery(), row);
 			double price = Double.parseDouble(scrapper.getPrice(CzytamPLQueries.PRICEROW.getQuery(), row));

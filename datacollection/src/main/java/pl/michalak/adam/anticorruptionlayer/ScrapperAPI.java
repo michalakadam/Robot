@@ -1,9 +1,9 @@
 package pl.michalak.adam.anticorruptionlayer;
 
-import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ScrapperAPI {
 
@@ -17,23 +17,23 @@ public class ScrapperAPI {
 		scrappingProvider.connect(url);
 	}
 
-	public Elements getTableRows(String tableQuery){
+	public List<Row> getTableRows(String tableQuery){
 		return scrappingProvider.getTableRows(tableQuery);
 	}
 
-	public String getTitle(String titleQuery, Element row) {
-		return scrappingProvider.getTitle(titleQuery, row);
+	public String getTitle(String titleQuery, Row row) {
+		return scrappingProvider.getTitle(titleQuery, row.convertToElement());
 	}
 
-	public String getAuthor(String authorQuery, Element row) {
-		return scrappingProvider.getAuthor(authorQuery, row);
+	public String getAuthor(String authorQuery, Row row) {
+		return scrappingProvider.getAuthor(authorQuery, row.convertToElement());
 	}
 
-	public String getPrice(String priceQuery, Element row) {
-		return scrappingProvider.getPrice(priceQuery, row);
+	public String getPrice(String priceQuery, Row row) {
+		return scrappingProvider.getPrice(priceQuery, row.convertToElement());
 	}
 
-	public String getPromoDetails(String promoDetailsQuery, Element row) {
-		return scrappingProvider.getPromoDetails(promoDetailsQuery, row);
+	public String getPromoDetails(String promoDetailsQuery, Row row) {
+		return scrappingProvider.getPromoDetails(promoDetailsQuery, row.convertToElement());
 	}
 }

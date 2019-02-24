@@ -2,10 +2,11 @@ package pl.michalak.adam.anticorruptionlayer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JSoupScrapper implements ScrappingProvider{
 
@@ -19,11 +20,17 @@ public class JSoupScrapper implements ScrappingProvider{
 	}
 
 	@Override
-	public Elements getTableRows(String tableQuery) {
-		return document.select(tableQuery);
+	public List<Row> getTableRows(String tableQuery) {
+		var listOfElements = new ArrayList<>(document.select(tableQuery));
+		List<Row> listOfRows = new ArrayList<>();
+		for(Element jsoupElement : listOfElements){
+			listOfRows.add(new Row(jsoupElement));
+		}
+		return listOfRows;
 	}
 
 	@Override
+
 	public String getTitle(String titleQuery, Element row) {
 		return row.select(titleQuery).text();
 	}
