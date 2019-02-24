@@ -1,4 +1,4 @@
-package pl.michalak.adam.dbubdate;
+package pl.michalak.adam.dbupdate;
 
 import lombok.Data;
 import pl.michalak.adam.scrapping.Book;

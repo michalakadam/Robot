@@ -1,4 +1,4 @@
-package pl.michalak.adam.dbubdate;
+package pl.michalak.adam.dbupdate;
 
 import org.springframework.data.repository.CrudRepository;
 
