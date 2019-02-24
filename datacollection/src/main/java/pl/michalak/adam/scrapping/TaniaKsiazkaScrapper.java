@@ -26,7 +26,8 @@ class TaniaKsiazkaScrapper implements PageScrapper {
 		for (Row row : scrapper.getTableRows(TaniaKsiazkaQueries.TABLE.getQuery())) {
 			String title = scrapper.getTitle(TaniaKsiazkaQueries.TITLEROW.getQuery(), row);
 			String author = scrapper.getAuthor(TaniaKsiazkaQueries.AUTHORROW.getQuery(), row);
-			double price = Double.parseDouble(scrapper.getPrice(TaniaKsiazkaQueries.PRICEROW.getQuery(), row));
+			String priceString = scrapper.getPrice(TaniaKsiazkaQueries.PRICEROW.getQuery(), row);
+			double price = Double.parseDouble(priceString.replace("zł", "").replace(",", "."));
 			String promoDetails = scrapper.getPromoDetails(TaniaKsiazkaQueries.PROMODETAILSROW.getQuery(), row);
 			scrappedBooks.add(ScrappedBook.BookBuilder.create(title).setAuthor(author).setPrice(price).setPromoDetails(promoDetails).build());
 		}

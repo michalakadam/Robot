@@ -24,7 +24,7 @@ public class DataCollectionAPI {
 	 * that may be already present in the database.
 	 * @return Set of all books in supported bookstores which price is reduced.
 	 */
-	public Set<? extends Book> updateData(){
+	public Set<ScrappedBook> updateData(){
 		Set<ScrappedBook> booksScrapped = new HashSet<>();
 		for(PageScrapper pageScrapper : bookStoresAvailable()){
 			booksScrapped.addAll(pageScrapper.scrapData());
