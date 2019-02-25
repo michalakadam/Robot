@@ -4,8 +4,8 @@
 
 ### REQUIREMENTS
 
-Book information collected is: title, genre, author(s), price<br/>
-Book information is collected from 2 DIFFERENT libraries (one with screen scraping, one with REST API)<br/>
+Book information collected is: title, author(s), price and promodetails<br/>
+Book information is collected from 2 DIFFERENT bookstores using screen scrapping<br/>
 Robot runs once per day, results are appended<br/>
 Run results are persisted in DB<br/>
 Runs are logged along with their statistics<br/> 
@@ -16,13 +16,3 @@ Holy master, Sonar, Maven quality plugins<br/>
 Multi-module Maven project<br/>
 Web-UI front-end tech stack is your pick<br/>
 Spring Data with JPA repository and Hibernate for pesistence<br/>
-
-### Things to learn
-
-screen scraping<br/>
-REST API<br/>
-Spring<br/>
-logger<br/>
-Jenkins<br/>
-Web-UI<br/>
-
