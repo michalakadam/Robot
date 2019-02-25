@@ -20,6 +20,7 @@ class TaniaKsiazkaScrapper implements PageScrapper {
 	@Override
 	public Set<ScrappedBook> scrapData() {
 		Set<ScrappedBook> scrappedBooks = new HashSet<>();
+		//TODO: this has to be done concurrently taking into account amount of data scrapped
 		while(pageNumber < 1500) { //as of February 2019 there are 1497 pages and accessing page number 1498 returns redirects back to page 1497 -> safe solution.
 			pageNumber++;
 			try {
