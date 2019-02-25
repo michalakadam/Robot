@@ -1,6 +1,6 @@
 package pl.michalak.adam.scrapping;
 
-import java.util.Set;
+import java.util.List;
 
 public interface PageScrapper {
-	Set<ScrappedBook> scrapData();}
+	List<Book> scrapData();}

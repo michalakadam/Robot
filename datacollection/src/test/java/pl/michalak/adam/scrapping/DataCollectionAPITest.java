@@ -1,5 +1,6 @@
 package pl.michalak.adam.scrapping;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.Set;
