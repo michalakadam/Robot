@@ -12,10 +12,8 @@ import java.util.Set;
  * This API provides a method for books information update.
  */
 public class DataCollectionAPI {
-	ScrapperAPI scrapper;
 
 	public DataCollectionAPI(){
-		this.scrapper = new ScrapperAPI(new JSoupScrapper());
 	}
 
 	/**
@@ -35,7 +33,7 @@ public class DataCollectionAPI {
 	private List<? extends PageScrapper> bookStoresAvailable(){
 		List<PageScrapper> bookStores = new ArrayList<>();
 		for(SupportedBookStore bookStore : SupportedBookStore.values()){
-			bookStores.add(ScrapperFactory.getPageScrapper(bookStore.getUrl(), scrapper));
+			bookStores.add(ScrapperFactory.getPageScrapper(bookStore.getUrl()));
 		}
 		return bookStores;
 	}
