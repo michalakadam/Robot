@@ -12,11 +12,16 @@ class BookEntity {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
+	@Column
 	private Long id;
+	@Column
 	private String title;
+	@Column
 	private String author;
+	@Column
 	private double price;
-	private String promoDetails;
+	@Column
+	private String promo;
 
 	BookEntity(){}
 
@@ -24,6 +29,6 @@ class BookEntity {
 		this.title = book.getTitle();
 		this.author = book.getAuthor();
 		this.price = book.getPrice();
-		this.promoDetails = book.getPromoDetails();
+		this.promo = book.getPromoDetails();
 	}
 }

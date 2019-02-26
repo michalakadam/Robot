@@ -29,6 +29,8 @@ class DataFormattingHelper {
 
 	static String getPromoInPercents(double price, double previousPrice){
 		int promoInPercents = (int) (((previousPrice-price)/previousPrice)*100);
+		if(promoInPercents < 10)
+			promoInPercents = 10; //solves problem with sorting strings in database
 		return new StringBuilder().append("-").append(promoInPercents).append("%").toString();
 	}
 }
