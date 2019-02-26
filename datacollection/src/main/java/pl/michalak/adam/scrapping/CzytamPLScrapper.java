@@ -5,78 +5,74 @@ import pl.michalak.adam.anticorruptionlayer.Row;
 import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Queue;
 
 class CzytamPLScrapper implements PageScrapper {
 	private int pageNumber;
-	private final Set<Book> scrappedBooks;
+	private final Queue<Book> scrappedBooks;
+	private final ScrapperAPI scrapper;
 
 	CzytamPLScrapper(){
 		this.pageNumber = 0;
-		scrappedBooks = new HashSet<>();
+		scrappedBooks = new LinkedList<>();
+		this.scrapper = new ScrapperAPI(new JSoupScrapper());
 	}
 
 	@Override
-	public Set<Book> scrapData() {
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		while(pageNumber < 10) { //as of February 2019 there are 7 pages and accessing page number 8 returns responseCode 200 -> safe solution.
-			executorService.execute(() -> {
-				ScrapperAPI scrapper = new ScrapperAPI(new JSoupScrapper());
-				connectToNextPage(scrapper);
-				getBooksDataFromPage(scrapper);
-			});
+	public Queue<Book> scrapData() {
+		while(pageNumber < 8) { //as of February 2019 there are 7 pages and accessing page number 8 returns responseCode 200 -> safe solution.
+			connectToNextPage();
+			getBooksDataFromPage();
 		}
 		return scrappedBooks;
 	}
 
-	private void connectToNextPage(ScrapperAPI scrapper) {
+	private void connectToNextPage() {
 		pageNumber++;
 		try {
-			scrapper.connect(getURLOfNextPage());
+			scrapper.connect(getURLOfCurrentPage());
 		} catch (IOException e) {
-			System.err.println("Could not connect to " + TaniaKsiazkaQueries.URL);
+			System.err.println("Could not connect to " + getURLOfCurrentPage());
 		}
 
 	}
 
-	private void getBooksDataFromPage(ScrapperAPI scrapper){
-		for (Row row : getTableWithRows(scrapper)) {
+	private void getBooksDataFromPage(){
+		for (Row row : getTableWithRows()) {
 			scrappedBooks.add(ScrappedBook.BookBuilder
-				.create(getBookTitle(scrapper, row))
-				.setAuthor(getBookAuthor(scrapper, row))
-				.setPrice(getBookPrice(scrapper, row))
-				.setPromoDetails(getPromoDetails(scrapper, row))
+				.create(getBookTitle(row))
+				.setAuthor(getBookAuthor(row))
+				.setPrice(getBookPrice(row))
+				.setPromoDetails(getPromoDetails(row))
 				.build());
 		}
 	}
 
 
-	private String getURLOfNextPage(){
+	private String getURLOfCurrentPage(){
 		return CzytamPLQueries.URL.getQuery().replace("25642-1", "25642-"+pageNumber);
 	}
 
-	private List<Row> getTableWithRows(ScrapperAPI scrapper){
+	private List<Row> getTableWithRows(){
 		return scrapper.getTableRows(CzytamPLQueries.TABLE.getQuery());
 	}
 
-	private String getBookTitle(ScrapperAPI scrapper, Row row){
+	private String getBookTitle(Row row){
 		return scrapper.getTitle(CzytamPLQueries.TITLEROW.getQuery(), row);
 	}
 
-	private String getBookAuthor(ScrapperAPI scrapper, Row row){
+	private String getBookAuthor(Row row){
 		return scrapper.getAuthor(CzytamPLQueries.AUTHORROW.getQuery(), row);
 	}
 
-	private double getBookPrice(ScrapperAPI scrapper, Row row){
+	private double getBookPrice(Row row){
 		return DataFormattingHelper.parseStringToDouble(scrapper.getPrice(CzytamPLQueries.PRICEROW.getQuery(), row).substring(9));
 	}
 
-	private String getPromoDetails(ScrapperAPI scrapper, Row row){
-		double price = getBookPrice(scrapper, row);
+	private String getPromoDetails(Row row){
+		double price = getBookPrice(row);
 		double previousPrice = DataFormattingHelper.parseStringToDouble(scrapper.getPromoDetails(CzytamPLQueries.PROMODETAILSROW.getQuery(), row));
 		return DataFormattingHelper.getPromoInPercents(price, previousPrice);
 	}

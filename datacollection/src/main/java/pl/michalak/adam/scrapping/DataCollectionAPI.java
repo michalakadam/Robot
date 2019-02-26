@@ -1,8 +1,5 @@
 package pl.michalak.adam.scrapping;
 
-import pl.michalak.adam.anticorruptionlayer.JSoupScrapper;
-import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +22,7 @@ public class DataCollectionAPI {
 	public Set<Book> updateData(){
 		Set<Book> booksScrapped = new HashSet<>();
 		for(PageScrapper pageScrapper : bookStoresAvailable()){
-			booksScrapped.addAll(pageScrapper.scrapData());
+				booksScrapped.addAll(pageScrapper.scrapData());
 		}
 		return booksScrapped;
 	}

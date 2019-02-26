@@ -5,10 +5,11 @@ import org.testng.annotations.Test;
 
 import java.util.Set;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertTrue;
 
 public class DataCollectionAPITest {
 
+	@Ignore
 	@Test
 	public void shouldReturnNotEmptySetOfBooks(){
 	    //given
@@ -18,6 +19,7 @@ public class DataCollectionAPITest {
 	    //when
 	    Set<Book> booksReturnedByUpdate = dataCollectionAPI.updateData();
 	    int booksScrappedAmount = booksReturnedByUpdate.size();
+		System.out.println(booksScrappedAmount);
 	    //then
 	    assertTrue(booksScrappedAmount > 0, whyItFailed);
 	}

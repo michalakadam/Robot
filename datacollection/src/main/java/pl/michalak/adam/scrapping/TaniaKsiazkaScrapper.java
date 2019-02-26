@@ -5,47 +5,44 @@ import pl.michalak.adam.anticorruptionlayer.Row;
 import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class TaniaKsiazkaScrapper implements PageScrapper {
 
 	private AtomicInteger pageNumber;
-	private Set<Book> scrappedBooks;
+	Queue<Book> scrappedBooks;
+
 
 	TaniaKsiazkaScrapper(){
 		this.pageNumber = new AtomicInteger(0);
-		this.scrappedBooks = new HashSet<>();
+		this.scrappedBooks = new LinkedBlockingDeque<>();
 	}
 
 	@Override
-	public Set<Book> scrapData() {
+	public Queue<Book> scrapData() {
 		ExecutorService executorService = Executors.newFixedThreadPool(8); //8 is a number of processors on server machine -> no need for running more threads
-		while(pageNumber.get() < 1490) { //as of February 2019 there are 1497 pages and accessing page number 1498 returns redirects back to page 1497 -> safe solution.
-			executorService.execute(() -> {
+		while(pageNumber.get() < 200) { //as of February 2019 there are 1497 pages and accessing page number 1498 returns redirects back to page 1497 -> safe solution.
+			executorService.submit(() -> {
 				ScrapperAPI scrapper = new ScrapperAPI(new JSoupScrapper());
 				connectToNextPage(scrapper);
 				getBooksDataFromPage(scrapper);
 			});
 		}
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		executorService.shutdown();
 		return scrappedBooks;
 	}
 
 	private void connectToNextPage(ScrapperAPI scrapper){
 		pageNumber.incrementAndGet();
 		try {
-			scrapper.connect(getURLOfNextPage());
+			scrapper.connect(getURLOfCurrentPage());
 		} catch (IOException e) {
-			System.err.println("Could not connect to " + getURLOfNextPage());
+			System.err.println("Could not connect to " + getURLOfCurrentPage());
 		}
 
 	}
@@ -61,7 +58,7 @@ class TaniaKsiazkaScrapper implements PageScrapper {
 		}
 	}
 
-	private String getURLOfNextPage(){
+	private String getURLOfCurrentPage(){
 		return new StringBuffer().append(TaniaKsiazkaQueries.URL.getQuery()).append("/page-").append(pageNumber).toString();
 	}
 
