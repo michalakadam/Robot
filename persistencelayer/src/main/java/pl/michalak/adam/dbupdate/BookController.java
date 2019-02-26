@@ -21,19 +21,19 @@ class BookController {
 		return bookRepository.findAll();
 	}
 
-	@GetMapping("/sortbytitle")
+	@GetMapping("/all/sortbytitle")
 	public Iterable<BookEntity> sortByTitleAsc(){
 		Sort sort = Sort.by(Sort.Order.asc("title"));
 		return bookRepository.findAll(sort);
 	}
 
-	@GetMapping("/sortbyauthor")
+	@GetMapping("/all/sortbyauthor")
 	public Iterable<BookEntity> sortByAuthorAsc(){
 		Sort sort = Sort.by(Sort.Order.asc("author"));
 		return bookRepository.findAll(sort);
 	}
 
-	@GetMapping("/sortbyprice")
+	@GetMapping("/all/sortbyprice")
 	public Iterable<BookEntity> sortByPriceAsc(){
 		Sort sort = Sort.by(Sort.Order.asc("price"));
 		return bookRepository.findAll(sort);
