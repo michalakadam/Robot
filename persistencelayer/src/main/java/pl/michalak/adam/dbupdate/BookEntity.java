@@ -13,13 +13,9 @@ class BookEntity {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Long id;
-	@Column(name = "Title")
 	private String title;
-	@Column(name = "Author")
 	private String author;
-	@Column(name = "Price")
 	private double price;
-	@Column(name = "Reduction")
 	private String promoDetails;
 
 	BookEntity(){}
