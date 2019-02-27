@@ -1,9 +1,10 @@
 package pl.michalak.adam.scrapping;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * This API provides a method for books information update.
@@ -21,9 +22,20 @@ public class DataCollectionAPI {
 	 */
 	public Set<Book> updateData(){
 		Set<Book> booksScrapped = new HashSet<>();
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
+		List<Future<?>> tasks = new LinkedList<>();
 		for(PageScrapper pageScrapper : bookStoresAvailable()){
-				booksScrapped.addAll(pageScrapper.scrapData());
+			tasks.add(executorService.submit(() -> booksScrapped.addAll(pageScrapper.scrapData())));
 		}
+		for(Future<?> currentTask : tasks){
+			try {
+				currentTask.get();
+			} catch (InterruptedException | ExecutionException e) {
+				System.err.println("Future task interrupted during execution.");;
+			}
+		}
+		executorService.shutdown();
+		System.out.println("Scrapping done! Now you can browse the results.");
 		return booksScrapped;
 	}
 
