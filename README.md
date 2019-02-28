@@ -30,5 +30,6 @@
 * logger using Spring framework aspect
 * script running app on a server once a day 
 * more bookstores
-* higher unit tests coverage
+* higher unit tests coverage with focus on anticorruption layer
 * GUI with HTML, CSS, JS and thymeleaf
+* Scrap data using several servers with different IPs and delegator to manage them -> solution to problem of pages not loading when multiple threads are walking through taniaksiazka.pl webpage.

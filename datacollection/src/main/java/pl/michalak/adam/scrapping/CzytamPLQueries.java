@@ -12,7 +12,7 @@ enum CzytamPLQueries {
 		this.query = query;
 	}
 
-	String getQuery(){
-		return this.query;
+	ScrapperQuery getQuery(){
+		return new ScrapperQuery(this.query);
 	}
 }

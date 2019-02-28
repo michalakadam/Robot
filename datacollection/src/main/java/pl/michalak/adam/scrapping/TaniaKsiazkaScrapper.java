@@ -5,6 +5,8 @@ import pl.michalak.adam.anticorruptionlayer.Row;
 import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +28,9 @@ class TaniaKsiazkaScrapper implements PageScrapper {
 	@Override
 	public Queue<Book> scrapData() {
 		ExecutorService executorService = Executors.newFixedThreadPool(8); //8 is a number of processors on server machine -> no need for running more threads
-		while(pageNumber.get() < 250) { //as of February 2019 there are 1497 pages. TODO: when the number of pages > 250, scrapping takes long time and some pages are not loaded.
+		while(pageNumber.get() < 250) { //as of February 2019 there are 1497 pages.
+			// TODO: when the number of pages > 250, scrapping takes long time and some pages are not loaded.
+			// hypothesis: webpage prohibits bot access to its contents. Solution: slow down threads or delegate obtaining data to several servers with different IP.
 			executorService.execute(() -> {
 				ScrapperAPI scrapper = new ScrapperAPI(new JSoupScrapper());
 				connectToNextPage(scrapper);
@@ -58,8 +62,13 @@ class TaniaKsiazkaScrapper implements PageScrapper {
 		}
 	}
 
-	private String getURLOfCurrentPage(){
-		return new StringBuffer().append(TaniaKsiazkaQueries.URL.getQuery()).append("/page-").append(pageNumber).toString();
+	private URL getURLOfCurrentPage() {
+		try {
+			return new URL(new StringBuffer().append(TaniaKsiazkaQueries.URL.getQuery()).append("/page-").append(pageNumber).toString());
+		} catch (MalformedURLException e) {
+			System.err.println("No protocol was specified or an unknown protol was found while parsing String to URL.");
+		}
+		return null;
 	}
 
 	private List<Row> getTableWithRows(ScrapperAPI scrapper){

@@ -5,6 +5,8 @@ import pl.michalak.adam.anticorruptionlayer.Row;
 import pl.michalak.adam.anticorruptionlayer.ScrapperAPI;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -51,8 +53,13 @@ class CzytamPLScrapper implements PageScrapper {
 	}
 
 
-	private String getURLOfCurrentPage(){
-		return CzytamPLQueries.URL.getQuery().replace("25642-1", "25642-"+pageNumber);
+	private URL getURLOfCurrentPage(){
+		try {
+			return new URL(CzytamPLQueries.URL.toString().replace("25642-1", "25642-"+pageNumber));
+		} catch (MalformedURLException e) {
+			System.err.println("No protocol was specified or an unknown protol was found while parsing String to URL.");
+		}
+		return null;
 	}
 
 	private List<Row> getTableWithRows(){
