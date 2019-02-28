@@ -15,7 +15,6 @@
     <modules>
         <module>datacollection</module>
         <module>persistencelayer</module>
-        <module>webapp</module>
     </modules>
   
     <properties>
@@ -45,11 +44,6 @@
             <artifactId>testng</artifactId>
             <version>${version.dependency.testng}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.tinylog</groupId>
-            <artifactId>tinylog</artifactId>
-            <version>${version.dependency.tinylog}</version>
         </dependency>
     </dependencies>
 

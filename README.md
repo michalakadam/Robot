@@ -1,18 +1,34 @@
 # ROBOT
 
-##### Robot collects book information for gratis and promo books
+*Robot is an app that collects book information for promo books across several online bookstores*
 
-### REQUIREMENTS
+### Tech stack
 
-Book information collected is: title, author(s), price and promodetails<br/>
-Book information is collected from 2 DIFFERENT bookstores using screen scrapping<br/>
-Robot runs once per day, results are appended<br/>
-Run results are persisted in DB<br/>
-Runs are logged along with their statistics<br/> 
-Results can be sorted per all fields and filtered per bookstore category and author<br/>
-Books can be searched for (author, title, title fragment, price greater or lower than, price range)<br/>
-User documentation (how to run, install, etc. preferably with scripts)<br/>
-Holy master, Sonar, Maven quality plugins<br/>
-Multi-module Maven project<br/>
-Web-UI front-end tech stack is your pick<br/>
-Spring Data with JPA repository and Hibernate for pesistence<br/>
+* web scrapping with jsoup
+* PostgreSQL 
+* database access through Spring Data using Hibernate as JPA provider
+* Lombok library for POJO methods generation
+
+### How to use this APP
+
+1. Clone this repo: git clone https://github.com/michalakadam/Robot.git 
+2. Build project: mvn clean install
+3. Set up PostgreSQL database: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
+4. insert database details in file application.properties located in Robot/persistencelayer/main/resources
+5. Run DBHandler class in Robot/persistencelayer/main/java/pl/michalak/adam/dbupdate
+6. To see the results type in a browser YOUR_IP_ADDRESS:8081/books/all
+
+### Requirements
+
+* Maven 3.6.0 or newer
+* Java 1.8 or newer
+* PostgreSQL 42.2.5
+
+
+### TO DO:
+
+* logger using Spring framework aspect
+* script running app on a server once a day 
+* more bookstores
+* higher unit tests coverage
+* GUI with HTML, CSS, JS and thymeleaf

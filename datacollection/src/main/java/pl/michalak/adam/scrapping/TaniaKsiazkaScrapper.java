@@ -26,7 +26,7 @@ class TaniaKsiazkaScrapper implements PageScrapper {
 	@Override
 	public Queue<Book> scrapData() {
 		ExecutorService executorService = Executors.newFixedThreadPool(8); //8 is a number of processors on server machine -> no need for running more threads
-		while(pageNumber.get() < 250) { //as of February 2019 there are 1497 pages. However, when the number of pages > 250, scrapping takes long time and some pages are not loaded.
+		while(pageNumber.get() < 250) { //as of February 2019 there are 1497 pages. TODO: when the number of pages > 250, scrapping takes long time and some pages are not loaded.
 			executorService.execute(() -> {
 				ScrapperAPI scrapper = new ScrapperAPI(new JSoupScrapper());
 				connectToNextPage(scrapper);
